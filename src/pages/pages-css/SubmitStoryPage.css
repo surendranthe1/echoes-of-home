@@ -1,0 +1,57 @@
+/* src/pages/SubmitStoryPage.css */
+.submit-story-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: hsl(var(--background));
+  }
+  
+  .submit-story-header {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    background-color: hsl(var(--card));
+    border-bottom: 1px solid hsl(var(--border));
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  
+  .submit-story-header h1 {
+    flex: 1;
+    margin: 0;
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  
+  .back-button {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .submit-story-card {
+    max-width: 800px;
+    width: 100%;
+    margin: 1rem auto;
+    border: 1px solid hsl(var(--border));
+    background-color: hsl(var(--card));
+  }
+  
+  .story-form-section {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid hsl(var(--border));
+  }
+  
+  .story-form-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+  
+  .section-title {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    color: hsl(var(--foreground));
+  }

@@ -1,0 +1,53 @@
+/* src/pages/NotFound.css */
+.not-found-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    background-color: hsl(var(--background));
+  }
+  
+  .not-found-card {
+    max-width: 600px;
+    width: 100%;
+    border: 1px solid hsl(var(--border));
+    background-color: hsl(var(--card));
+  }
+  
+  .not-found-illustration {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+  }
+  
+  .lost-qr-code {
+    position: relative;
+    width: 120px;
+    height: 120px;
+  }
+  
+  .qr-frame {
+    width: 100%;
+    height: 100%;
+    border: 4px solid hsl(var(--primary));
+    border-radius: 8px;
+  }
+  
+  .qr-question {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 4rem;
+    font-weight: bold;
+    color: hsl(var(--primary));
+  }
+  
+  .not-found-message {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: hsl(var(--muted-foreground));
+  }

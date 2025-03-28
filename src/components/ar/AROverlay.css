@@ -1,0 +1,83 @@
+/* src/components/ar/AROverlay.css */
+.ar-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 20;
+  }
+  
+  .ar-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+  }
+  
+  .ar-loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top: 3px solid white;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .ar-indicators {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  
+  .ar-indicator {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+  }
+  
+  .ar-indicator:nth-child(1) {
+    top: 25%;
+    left: 20%;
+  }
+  
+  .ar-indicator:nth-child(2) {
+    top: 40%;
+    left: 75%;
+  }
+  
+  .ar-indicator:nth-child(3) {
+    top: 65%;
+    left: 30%;
+  }
+  
+  .ar-indicator:nth-child(4) {
+    top: 75%;
+    left: 60%;
+  }
+  
+  .ar-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    pointer-events: auto;
+  }

@@ -1,28 +1,31 @@
-export type User = {
-  _id: string;
-  email: string;
+// src/types/index.ts
+
+// Coordinates for geolocation
+export interface Coordinates {
+  latitude: number;
+  longitude: number;
+}
+
+// Resource information (links, phone numbers)
+export interface Resource {
   name: string;
-  addressLine1: string;
-  city: string;
-  country: string;
-};
+  url: string;
+  phone?: string;
+}
 
-export type MenuItem = {
-    _id: string;
-    name: string;
-    price: number;
-};
-
-export type Restaurant = {
-  _id: string;
-  user: string;
-  restaurantName: string;
-  city: string;
-  country: string;
-  deliveryPrice: number;
-  estimatedDeliveryTime: number;
-  cuisines: string[];
-  menuItems: MenuItem[];
+// Story data structure
+export interface Story {
+  id: string;
+  locationId: string;
+  title: string;
+  subtitle: string;
+  author: string;
+  authorBio: string;
   imageUrl: string;
-  lastUpdated: string;
-};
+  audioUrl: string;
+  content: string[];
+  coordinates: Coordinates;
+  locationDescription: string;
+  publishedDate: string;
+  resources: Resource[];
+}
