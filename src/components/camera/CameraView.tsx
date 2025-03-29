@@ -119,6 +119,7 @@ const CameraView: React.FC<CameraViewProps> = ({
         <div className="camera-error">
           <p>{error}</p>
           <p className="debug-info">Status: {cameraStatus}</p>
+          <p> Please refresh page or navigate back to home.</p>
           <Button 
             onClick={() => navigate('/')}
             variant="default"

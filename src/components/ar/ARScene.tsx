@@ -1,5 +1,7 @@
 // src/components/ar/ARScene.tsx
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { Story } from '@/types';
 import './ARScene.css';
 
@@ -9,84 +11,205 @@ interface ARSceneProps {
 }
 
 const ARScene: React.FC<ARSceneProps> = ({ story, currentSegment }) => {
-  // Calculate character position based on current segment
-  const getPosition = () => {
-    // Move character to different positions based on story segment
-    const positions = [
-      { x: 30, y: 40 },
-      { x: 60, y: 50 },
-      { x: 40, y: 70 },
-      { x: 70, y: 30 }
-    ];
-    
-    return positions[currentSegment % positions.length];
+  const sceneRef = useRef<HTMLDivElement>(null);
+  const modelRef = useRef<THREE.Group | null>(null);
+  const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
+  const sceneObjectRef = useRef<THREE.Scene | null>(null);
+  const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
+
+  // Create a human-like geometry
+  const createHumanGeometry = (): THREE.Group => {
+    // Create a group to combine different body parts
+    const humanGroup = new THREE.Group();
+
+    // Head (sphere)
+    const head = new THREE.Mesh(
+      new THREE.SphereGeometry(0.5, 32, 32),
+      new THREE.MeshStandardMaterial({ 
+        color: 0x000000,
+        transparent: true,
+        opacity: 0.8
+      })
+    );
+    head.position.y = 1.7; // Position at top of body
+
+    // Torso (cylinder)
+    const torso = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.5, 0.7, 1.5, 32),
+      new THREE.MeshStandardMaterial({ 
+        color: 0x000000,
+        transparent: true,
+        opacity: 1
+      })
+    );
+    torso.position.y = 0.75; // Position below head
+
+    // Arms (capsule-like shapes)
+    const createArm = (side: number) => {
+      const arm = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.2, 0.2, 1, 32),
+        new THREE.MeshStandardMaterial({ 
+          color: 0x000000,
+          transparent: true,
+          opacity: 1
+        })
+      );
+      arm.position.y = 1; // Middle of torso
+      arm.position.x = side * 0.6; // Left or right side
+      arm.rotation.z = side * Math.PI / 4; // Slight angle
+      return arm;
+    };
+
+    // Legs (cylinder shapes)
+    const createLeg = (side: number) => {
+      const leg = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.3, 0.3, 1.5, 32),
+        new THREE.MeshStandardMaterial({ 
+          color: 0x000000,
+          transparent: true,
+          opacity: 0.8
+        })
+      );
+      leg.position.y = -0.75; // Bottom of torso
+      leg.position.x = side * 0.3; // Left or right side
+      return leg;
+    };
+
+    // Add parts to group
+    humanGroup.add(head);
+    humanGroup.add(torso);
+    humanGroup.add(createArm(1));  // Right arm
+    humanGroup.add(createArm(-1)); // Left arm
+    humanGroup.add(createLeg(1));  // Right leg
+    humanGroup.add(createLeg(-1)); // Left leg
+
+    return humanGroup;
   };
+
   
-  // Get silhouette color based on current segment
-  const getSilhouetteColor = () => {
-    const colors = [
-      "rgba(40, 40, 40, 0.9)",     // Dark gray
-      "rgba(60, 60, 100, 0.9)",    // Dark blue-gray
-      "rgba(60, 90, 60, 0.9)",     // Dark green-gray
-      "rgba(90, 60, 60, 0.9)"      // Dark red-gray
-    ];
-    
-    return colors[currentSegment % colors.length];
-  };
-  
-  // Get body language/posture based on current segment
-  const getBodyLanguage = () => {
-    // Different body postures for different emotional states in the story
-    const postures = [
-      // Normal standing pose (default)
-      "M50,10 C60,10 70,20 70,35 C70,50 60,60 50,60 C40,60 30,50 30,35 C30,20 40,10 50,10 Z M40,65 C20,70 20,120 20,130 L80,130 C80,120 80,70 60,65 C55,63 53,63 50,63 C47,63 45,63 40,65 Z M30,135 L35,195 L45,195 L50,150 L55,195 L65,195 L70,135 Z",
+
+  useEffect(() => {
+    if (!sceneRef.current) return;
+
+    // Scene setup
+    const scene = new THREE.Scene();
+    sceneObjectRef.current = scene;
+    scene.background = null; // Ensure transparent background
+
+    // Camera setup
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    cameraRef.current = camera;
+    camera.position.z = 5;
+    camera.position.y = 1; // Raise camera slightly
+
+    // Renderer setup
+    const renderer = new THREE.WebGLRenderer({ 
+      alpha: true,  // Allow transparent background
+      antialias: true 
+    });
+    rendererRef.current = renderer;
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    sceneRef.current.appendChild(renderer.domElement);
+
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+    scene.add(ambientLight);
+
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(5, 5, 5);
+    scene.add(directionalLight);
+
+    // Optional: Orbit controls for interaction
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.25;
+    controls.screenSpacePanning = false;
+    controls.maxPolarAngle = Math.PI / 2;
+
+    controls.enableZoom = true;
+    controls.minDistance = 2; // Minimum zoom distance
+    controls.maxDistance = 10; // Maximum zoom distance
+
+    // Create human model
+    const humanModel = createHumanGeometry();
+    scene.add(humanModel);
+    modelRef.current = humanModel;
+
+    // Add axes helper
+    const axesHelper = new THREE.AxesHelper(5);
+    //scene.add(axesHelper);
+
+    // Animation loop
+    const animate = () => {
+      requestAnimationFrame(animate);
       
-      // Arms raised (excitement)
-      "M50,10 C60,10 70,20 70,35 C70,50 60,60 50,60 C40,60 30,50 30,35 C30,20 40,10 50,10 Z M40,65 C20,70 20,120 20,130 L80,130 C80,120 80,70 60,65 C55,63 53,63 50,63 C47,63 45,63 40,65 Z M30,135 L35,195 L45,195 L50,150 L55,195 L65,195 L70,135 Z M15,100 C15,90 20,75 35,65 L35,85 C25,90 20,95 20,100 Z M85,100 C85,90 80,75 65,65 L65,85 C75,90 80,95 80,100 Z",
+      // Rotate the human model
+      if (humanModel) {
+        humanModel.rotation.y += 0.05;
+      }
       
-      // Hunched (sadness)
-      "M50,20 C60,20 70,30 70,45 C70,60 60,70 50,70 C40,70 30,60 30,45 C30,30 40,20 50,20 Z M40,75 C25,80 20,120 20,140 L80,140 C80,120 75,80 60,75 C55,73 53,73 50,73 C47,73 45,73 40,75 Z M30,145 L35,195 L45,195 L50,160 L55,195 L65,195 L70,145 Z"
-    ];
-    
-    // You could map different story segments to different emotions
-    const emotionIndex = Math.min(currentSegment, postures.length - 1);
-    return postures[emotionIndex];
-  };
-  
-  const position = getPosition();
-  
+      controls.update();
+      renderer.render(scene, camera);
+    };
+    animate();
+
+    // Handle window resize
+    const handleResize = () => {
+      if (camera && renderer) {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      
+      // Dispose of resources
+      if (rendererRef.current) {
+        rendererRef.current.dispose();
+      }
+      
+      // Remove renderer from DOM
+      if (sceneRef.current && renderer.domElement) {
+        sceneRef.current.removeChild(renderer.domElement);
+      }
+    };
+  }, []);
+
+  // Update model animation when segment changes
+  useEffect(() => {
+    if (modelRef.current) {
+      // Example segment-based animation
+      switch (currentSegment % 4) {
+        case 0:
+          modelRef.current.rotation.y = 0;
+          break;
+        case 1:
+          modelRef.current.rotation.y = Math.PI / 4;
+          break;
+        case 2:
+          modelRef.current.rotation.y = -Math.PI / 4;
+          break;
+        case 3:
+          modelRef.current.rotation.y = 0;
+          break;
+      }
+    }
+  }, [currentSegment]);
+
   return (
     <div className="ar-overlay">
-      {/* Person Silhouette using SVG */}
-      <svg 
-        className="person-silhouette"
-        width="100" 
-        height="200"
-        viewBox="0 0 100 200" 
-        style={{
-          left: `${position.x}%`,
-          top: `${position.y}%`,
-        }}
-      >
-        {/* Main body silhouette */}
-        <path 
-          d={getBodyLanguage()}
-          fill={getSilhouetteColor()}
-          className="silhouette-body"
-        />
-        
-        {/* Author's name */}
-        <foreignObject x="0" y="210" width="100" height="30">
-          <div className="silhouette-name">{story.author}</div>
-        </foreignObject>
-      </svg>
+      <div ref={sceneRef} className="three-js-scene" />
       
-      {/* Location marker */}
+      {/* Location marker 
       <div className="ar-location-marker">
         <div className="ar-location-pulse"></div>
         <div className="ar-location-pin"></div>
         <div className="ar-location-label">{story.locationDescription}</div>
-      </div>
+      </div> */}
     </div>
   );
 };

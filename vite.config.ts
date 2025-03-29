@@ -10,6 +10,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  assetsInclude: ['**/*.obj'],
   server: {
     host: '0.0.0.0',
     allowedHosts: true,
