@@ -5,33 +5,37 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 220 13% 18%;
+    --foreground: 220, 14%, 96%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 220, 13%, 23%;
+    --card-foreground: 220, 14%, 96%;
  
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
  
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 220, 30%, 50%;
+    --primary-foreground: 220, 14%, 96%;
  
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 250, 10%, 30%;
+    --secondary-foreground: 220, 14%, 96%;
  
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
- 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
- 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+      /* Muted elements */
+    --muted: 220, 10%, 30%;            /* Dark muted */
+    --muted-foreground: 220, 10%, 70%; /* Medium gray */
+    
+    /* Other UI elements */
+    --accent: 220, 15%, 25%;           /* Subtle accent */
+    --accent-foreground: 220, 14%, 96%; /* Off-white */
+    
+    /* Destructive actions */
+    --destructive: 0, 62%, 35%;        /* Deep red */
+    --destructive-foreground: 220, 14%, 96%; /* Off-white */
+    
+    /* Borders and inputs */
+    --border: 220, 13%, 30%;           /* Darker border */
+    --input: 220, 13%, 30%;            /* Darker input */
+    --ring: 220, 30%, 50%;             /* Match primary */
  
     --radius: 0.5rem;
   }

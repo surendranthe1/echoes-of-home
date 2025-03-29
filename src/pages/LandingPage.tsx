@@ -78,15 +78,25 @@ const LandingPage: React.FC = () => {
         
         <Card className="about-card">
           <CardHeader>
-            <CardTitle>About Urban Stories</CardTitle>
-            <CardDescription>A community-driven project</CardDescription>
+            <CardTitle>About Echoes from Home</CardTitle>
+            <CardDescription>
+                A community-driven project partnered with{' '}
+                <a 
+                  href="https://wearemobilise.org.au/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-primary underline hover:text-primary/80"
+                >
+                  We Are Mobilise.
+                </a>
+              </CardDescription>
           </CardHeader>
           
           <CardContent>
             <p>
-              Urban Stories is a community-driven project that aims to preserve and share the diverse 
-              experiences of city residents. Our stories focus on marginalized voices, personal 
-              struggles, community histories, and moments of resilience that shaped our urban landscape.
+              Echoes from Home is a community-driven project that shares real stories of homelessness across Australia - not just the struggle, but the strength behind them.
+              Hearing these voices changes how we see homelessness. And when we see differently, we act differently.
+              Discover how you can be part of the solution.
             </p>
           </CardContent>
           
@@ -113,7 +123,7 @@ const LandingPage: React.FC = () => {
       </div>
       
       <footer className="landing-footer">
-        <p>&copy; 2025 Urban Stories Project</p>
+        <p>&copy; 2025 Echoes From Home Project</p>
         <div className="footer-links">
           <Link to="/privacy">Privacy Policy</Link>
           <Link to="/terms">Terms of Use</Link>
