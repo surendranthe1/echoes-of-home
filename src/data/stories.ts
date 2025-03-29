@@ -1,6 +1,7 @@
 // src/data/stories.ts
 import { Story, Coordinates } from '../types';
 import deathAudio from '../assets/audio/death.mp3';
+import davidAudio from '../assets/audio/david.mp3';
 
 export const stories: Story[] = [
   {
@@ -11,12 +12,12 @@ export const stories: Story[] = [
     author: "David Roberts",
     authorBio: "Community Support Program Graduate",
     imageUrl: "/assets/stories/david.jpg",
-    audioUrl: deathAudio,
+    audioUrl: davidAudio,
     content: [
       "Mental health and addiction broke my life apart. I lost my job as a construction worker, then my apartment, then my connections with family.",
       "For two years, I survived on the streets around Flinders Street Station. Melbourne can be brutal in winter – those nights were the longest of my life.",
-      "Everything changed when a outreach worker from Sacred Heart Mission stopped to talk to me. They didn't just offer a meal, they offered a pathway. Counseling, rehabilitation support, job training – they saw me as a person, not just another homeless statistic.",
-      "Today, I'm in stable housing. I'm working part-time and rebuilding relationships with my kids. It wasn't just about a bed or a job – it was about believing I could have a future again."
+      "Everything changed when a outreach worker from Mobilise stopped to talk to me. They didn't just offer a meal, they offered a pathway. Counseling, rehabilitation support, job training – they saw me as a person, not just another homeless statistic.",
+      "Today, I'm in stable housing. I'm working part-time and rebuilding relationships with my kids. It wasn't just about a bed or a job – it was about believing I could have a future again. With your help and donations, we can work as a community to bring people who were like me on to a better path."
     ],
     coordinates: {
       latitude: -37.8183,
