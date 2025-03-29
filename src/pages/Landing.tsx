@@ -1,40 +1,52 @@
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import landingImage from '../images/landing-image.png';  
+
 
 export function Landing() {
   const navigate = useNavigate();
 
   return (
-    <div style={{ backgroundColor: "#1e40af", color: "white", minHeight: "100vh", padding: "2rem", textAlign: "center" }}>
-      <h1 style={{ fontSize: "2.5rem", fontWeight: "bold", marginBottom: "1rem" }}>Echoes of Home</h1>
-      <p style={{ fontSize: "1.25rem", marginBottom: "0.5rem" }}>Location:</p>
-      <p style={{ fontWeight: "600", fontSize: "1.25rem", marginBottom: "1.5rem" }}>
-        309–311 William St, West Melbourne VIC 3003
-      </p>
-      <p style={{ fontStyle: "italic", marginBottom: "1.5rem" }}>“This bench was once David’s Home”</p>
+    <div className="bg-gradient-to-b from-blue-900 to-blue-800 text-white min-h-screen">
+      {/* Navbar */}
+      <div className="bg-blue-950 shadow-md">
+        <div className="container mx-auto">
+          <Navbar />
+        </div>
+      </div>
 
-      <img
-        src="/bench-david.jpg"
-        alt="David sleeping on bench"
-        style={{ width: "100%", maxWidth: "400px", margin: "0 auto", borderRadius: "0.5rem", marginBottom: "1.5rem" }}
-      />
+      {/* Main Content */}
+      <div className="container mx-auto px-6 py-20 text-center flex flex-col items-center">
+        <h1 className="text-5xl sm:text-6xl font-extrabold mb-6">Echoes of Home</h1>
 
-      <p style={{ marginBottom: "1rem" }}>Scan complete. Tap below to hear his story</p>
+        <p className="text-xl sm:text-2xl font-medium mb-2">Location:</p>
+        <p className="text-2xl sm:text-3xl font-semibold mb-6">
+          309–311 William St, West Melbourne VIC 3003
+        </p>
 
-      <button
-        onClick={() => navigate("/ar")}
-        style={{
-          backgroundColor: "#22c55e",
-          padding: "1rem 2rem",
-          fontSize: "1.25rem",
-          borderRadius: "0.75rem",
-          fontWeight: "bold",
-          color: "white",
-          border: "none",
-          cursor: "pointer",
-        }}
-      >
-        Start
-      </button>
+        <p className="italic text-lg sm:text-xl mb-8">
+          “This bench was once David’s Home”
+        </p>
+
+        <img
+          src={landingImage}
+          alt="David sleeping on bench"
+          className="w-full max-w-xl lg:max-w-2xl mx-auto mb-8 rounded-2xl shadow-xl"
+        />
+
+        <p className="text-base sm:text-lg text-blue-100 mb-8">
+          Scan complete. Tap below to hear his story
+        </p>
+
+        <button
+          onClick={() => navigate("/ar")}
+          className="bg-green-600 hover:bg-green-500 text-white px-10 py-5 text-2xl sm:text-3xl font-bold rounded-2xl shadow-lg transition-colors"
+        >
+          Start
+        </button>
+      </div>
     </div>
   );
 }
+
+export default Landing;
