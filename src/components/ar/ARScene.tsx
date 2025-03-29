@@ -26,9 +26,11 @@ const ARScene: React.FC<ARSceneProps> = ({ story, currentSegment }) => {
     const head = new THREE.Mesh(
       new THREE.SphereGeometry(0.5, 32, 32),
       new THREE.MeshStandardMaterial({ 
-        color: 0x000000,
+        color: 0x1a1a25, // Darker, more solemn color
         transparent: true,
-        opacity: 0.8
+        opacity: 0.9,
+        roughness: 0.8, // More matte finish
+        metalness: 0.1
       })
     );
     head.position.y = 1.7; // Position at top of body
@@ -37,9 +39,11 @@ const ARScene: React.FC<ARSceneProps> = ({ story, currentSegment }) => {
     const torso = new THREE.Mesh(
       new THREE.CylinderGeometry(0.5, 0.7, 1.5, 32),
       new THREE.MeshStandardMaterial({ 
-        color: 0x000000,
+        color: 0x00000, 
         transparent: true,
-        opacity: 1
+        opacity: 1,
+        roughness: 0.7,
+        metalness: 0.2
       })
     );
     torso.position.y = 0.75; // Position below head
@@ -49,7 +53,7 @@ const ARScene: React.FC<ARSceneProps> = ({ story, currentSegment }) => {
       const arm = new THREE.Mesh(
         new THREE.CylinderGeometry(0.2, 0.2, 1, 32),
         new THREE.MeshStandardMaterial({ 
-          color: 0x000000,
+          color: 0x00000,
           transparent: true,
           opacity: 1
         })

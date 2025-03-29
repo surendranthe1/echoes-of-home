@@ -33,7 +33,7 @@ const DemoStoryPage: React.FC = () => {
       <Card className="demo-card">
         <CardHeader>
           <CardTitle>Demo Experience</CardTitle>
-          <CardDescription>Try Urban Stories without scanning a QR code</CardDescription>
+          <CardDescription>Try Echoes From Home without scanning a QR code</CardDescription>
         </CardHeader>
         
         <CardContent>
