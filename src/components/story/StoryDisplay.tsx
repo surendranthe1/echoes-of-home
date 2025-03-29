@@ -5,11 +5,13 @@ import { getStoryByLocationId, isUserNearLocation } from '@/data/stories';
 import { Coordinates, Story } from '@/types';
 import CameraView from '@/components/camera/CameraView';
 import ARScene from '@/components/ar/ARScene';
+import CallToActionDialog from '../Dialog/CallToActionDialog';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 import { X, ExternalLink, Play, Pause } from 'lucide-react';
+import HelpButton from '../Dialog/HelpButton';
 import './StoryDisplay.css';
 
 interface StoryParams {
@@ -23,6 +25,7 @@ const StoryDisplay: React.FC = () => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [locationVerified, setLocationVerified] = useState<boolean>(false);
   const [loadingLocation, setLoadingLocation] = useState<boolean>(true);
+  const [showCtaDialog, setShowCtaDialog] = useState<boolean>(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const storyContentRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -99,6 +102,8 @@ const StoryDisplay: React.FC = () => {
       
       audioRef.current.onended = () => {
         setIsPlaying(false);
+        // Show the CTA dialog when audio finishes
+        setShowCtaDialog(true);
       };
     }
     
@@ -131,6 +136,11 @@ const StoryDisplay: React.FC = () => {
     if (!isReady) {
       console.error("Camera could not be initialized");
     }
+  };
+
+  // Handle closing the CTA dialog
+  const handleCloseCtaDialog = () => {
+    setShowCtaDialog(false);
   };
 
   // Render loading and error states
@@ -205,16 +215,18 @@ const StoryDisplay: React.FC = () => {
         </div>
 
         <div className="story-audio-controls">
-          <Button 
-            onClick={toggleAudio}
-            variant="outline"
-            className="audio-button"
-          >
-            {isPlaying ? <Pause className="h-4 w-4 mr-2" /> : <Play className="h-4 w-4 mr-2" />}
-            {isPlaying ? "Pause Audio" : "Play Audio"}
-          </Button>
+          <div className="audio-buttons-row">
+            <Button 
+              onClick={toggleAudio}
+              variant="outline"
+              className="audio-button"
+            >
+              {isPlaying ? <Pause className="h-4 w-4 mr-2" /> : <Play className="h-4 w-4 mr-2" />}
+              {isPlaying ? "Pause Audio" : "Play Audio"}
+            </Button>
+            <HelpButton onClick={() => setShowCtaDialog(true)} />
+          </div>
         </div>
-
         <div className="story-content-scroll" ref={storyContentRef}>
           {story.content.map((segment, index) => (
             <Card key={index} className="story-segment">
@@ -288,6 +300,15 @@ const StoryDisplay: React.FC = () => {
       </div>
       
       <audio ref={audioRef} />
+      
+      {/* Call to Action Dialog */}
+      {story && (
+        <CallToActionDialog
+          open={showCtaDialog}
+          onClose={handleCloseCtaDialog}
+          story={story}
+        />
+      )}
     </div>
   );
 };
